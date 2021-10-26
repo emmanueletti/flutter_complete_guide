@@ -6,9 +6,7 @@ import 'package:flutter/material.dart';
 class MyApp extends StatefulWidget {
   // createState method returns a State with type of StatefulWidget
   @override
-  State<StatefulWidget> createState() {
-    return _MyAppState();
-  }
+  State<StatefulWidget> createState() => _MyAppState();
 }
 
 // state object that will be returned by MyApp
@@ -20,6 +18,8 @@ class _MyAppState extends State<MyApp> {
 
   // using var instead of the type "int" as it is better practise to
   // rely on type inference for simple things like this,
+  // type inference is activated because the variable is initilized to a value
+  // if not initialized, then we would need to specify the type
   // don't duplicate work
   var _questionIndex = 0;
 
