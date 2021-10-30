@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 
 class Answer extends StatelessWidget {
-  final VoidCallback _answerQuestion;
-  final String answerText;
+  final void Function(int) handleAnswerPress;
+  // since everything in Dart is an object, putting 'object" as type is the same
+  // as saying any. To type Maps, the first value is the key, and the second is
+  // the value: Map<Key, Value>
+  final Map<String, Object> answer;
 
-  const Answer(this._answerQuestion, this.answerText, {Key? key})
+  const Answer(this.answer, this.handleAnswerPress, {Key? key})
       : super(key: key);
 
   @override
@@ -22,8 +25,8 @@ class Answer extends StatelessWidget {
         // for a collection of pre-defined color binaries
         color: Colors.blue,
         textColor: Colors.white,
-        child: Text(answerText),
-        onPressed: _answerQuestion,
+        child: Text(answer['text'] as String),
+        onPressed: () => handleAnswerPress(answer['score'] as int),
       ),
     );
   }

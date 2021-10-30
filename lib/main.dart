@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import './question.dart';
-import './answer.dart';
+import './quiz.dart';
+import './result.dart';
 
 // Note:
 // all widgets are classes that extend a base widget in Flutter
@@ -12,19 +12,34 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  static const questions = [
+  static const _questions = [
     {
-      'questionText': "Whats your favourite colour?",
-      'answers': ['Black', 'Red', 'Green', 'White']
+      'questionText': 'What\'s your favorite color?',
+      'answers': [
+        {'text': 'Black', 'score': 10},
+        {'text': 'Red', 'score': 5},
+        {'text': 'Green', 'score': 3},
+        {'text': 'White', 'score': 1},
+      ],
     },
     {
-      'questionText': "What's your favourite animal?",
-      'answers': ['Rabbit', 'Snake', 'Elephant', 'Lion']
+      'questionText': 'What\'s your favorite animal?',
+      'answers': [
+        {'text': 'Rabbit', 'score': 3},
+        {'text': 'Snake', 'score': 11},
+        {'text': 'Elephant', 'score': 5},
+        {'text': 'Lion', 'score': 9},
+      ],
     },
     {
-      'questionText': "Who's your favourite instructor?",
-      'answers': ['Max', 'Peter', 'Sally', 'Diane']
-    }
+      'questionText': 'Who\'s your favorite instructor?',
+      'answers': [
+        {'text': 'Max', 'score': 1},
+        {'text': 'Max', 'score': 1},
+        {'text': 'Max', 'score': 1},
+        {'text': 'Max', 'score': 1},
+      ],
+    },
   ];
 
   // Using var instead of the type "int" as it is better practise to
@@ -33,19 +48,17 @@ class _MyAppState extends State<MyApp> {
   // if not initialized, then we would need to specify the type
   // don't duplicate work
   var _questionIndex = 0;
+  var _totalScore = 0;
 
-  void _answerQuestion() {
-    // SetState is a function that takes a callback function to set properties
+  void _answerQuestion(int score) {
+    // SetState is a function that comes wit the flutter material dart import.
+    // It takes a callback function to set properties
     // in the _MyAppState object. When properties in the _MyAppState object
     // change, Flutter does a re-render of the affect widgets.
     setState(() {
-      if (_questionIndex < questions.length) {
-        _questionIndex++;
-      }
+      _questionIndex++;
+      _totalScore += score;
     });
-    // debugging prints
-    print(_questionIndex);
-    print('answer chosen');
   }
 
 // Necesary override of the build method inherited from statelesswidget
@@ -56,36 +69,18 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text('My First App'),
+          title: const Text('My First App'),
         ),
         // named body argument of the Scaffold class takes a column widget
         // which itself takes a named children argument that takes an array
         // of widgets
-        body: _questionIndex < questions.length
-            ? Column(children: <Widget>[
-                Question(questions[_questionIndex]['questionText'] as String),
-                // just like in React, an array or List of widgets can be declaratively
-                // passed to Flutter to render with a few additional Dart add-ons
-
-                // 1 - in this case, Dart needs to be explicitly told that questions[_questionIndex]['answers']
-                // is a list of strings, done using the "as List<String>" syntax
-
-                // 2 - Dart's map functions returns an "iterable" which is a parent class
-                // for all the different types of iterables (list, maps, etc). So we need
-                // to cast the vague "iterable" into a List using the .toList() method
-
-                // 3 - we are already inside a List of widgets (Column) and can't nest
-                // another list of widgets (Answers) inside. We want to pass distinct,
-                // stand alone widgets. So we use the spread operator to remove the
-                // brackets and have the content stand alone
-                ...(questions[_questionIndex]['answers'] as List<String>)
-                    .map((answer) {
-                  return Answer(_answerQuestion, answer);
-                }).toList(),
-              ])
-            : const Center(
-                child: Text('Survey Finished!'),
-              ),
+        body: _questionIndex < _questions.length
+            ? Quiz(
+                _questions[_questionIndex]['questionText'] as String,
+                _questions[_questionIndex]['answers']
+                    as List<Map<String, Object>>,
+                _answerQuestion)
+            : Result(_totalScore),
       ),
     );
   }
