@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 
 class Answer extends StatelessWidget {
   final VoidCallback _answerQuestion;
+  final String answerText;
 
-  const Answer(this._answerQuestion, {Key? key}) : super(key: key);
+  const Answer(this._answerQuestion, this.answerText, {Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,8 +18,11 @@ class Answer extends StatelessWidget {
       child: RaisedButton(
         // providing color named argument with the value of a static property
         // on an un-instantiated Colors class
+        // Colors class is merely a grouping mechanism used to hold all the values
+        // for a collection of pre-defined color binaries
         color: Colors.blue,
-        child: Text('Answer 1'),
+        textColor: Colors.white,
+        child: Text(answerText),
         onPressed: _answerQuestion,
       ),
     );

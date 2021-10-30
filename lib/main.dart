@@ -13,8 +13,18 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final questions = [
-    "Whats your favourite colour?",
-    "What's your favourite animal?"
+    {
+      'questionText': "Whats your favourite colour?",
+      'answers': ['Black', 'Red', 'Green', 'White']
+    },
+    {
+      'questionText': "What's your favourite animal?",
+      'answers': ['Rabbit', 'Snake', 'Elephant', 'Lion']
+    },
+    {
+      'questionText': "Who's your favourite instructor?",
+      'answers': ['Max', 'Peter', 'Sally', 'Diane']
+    }
   ];
 
   // Using var instead of the type "int" as it is better practise to
@@ -42,21 +52,34 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('My First App'),
-        ),
-        // named body argument of the Scaffold class takes a column widget
-        // which itself takes a named children argument that takes an array
-        // of widgets
-        body: Column(children: <Widget>[
-          Question(questions[_questionIndex]),
-          Answer(_answerQuestion),
-          Answer(_answerQuestion),
-          Answer(_answerQuestion),
-        ]),
+        home: Scaffold(
+      appBar: AppBar(
+        title: Text('My First App'),
       ),
-    );
+      // named body argument of the Scaffold class takes a column widget
+      // which itself takes a named children argument that takes an array
+      // of widgets
+      body: Column(children: <Widget>[
+        Question(questions[_questionIndex]['questionText'] as String),
+        // just like in React, an array or List of widgets can be declaratively
+        // passed to Flutter to render with a few additional Dart add-ons
+
+        // 1 - in this case, Dart needs to be explicitly told that questions[_questionIndex]['answers']
+        // is a list of strings, done using the "as List<String>" syntax
+
+        // 2 - Dart's map functions returns an "iterable" which is a parent class
+        // for all the different types of iterables (list, maps, etc). So we need
+        // to cast the vague "iterable" into a List using the .toList() method
+
+        // 3 - we are already inside a List of widgets (Column) and can't nest
+        // another list of widgets (Answers) inside. We want to pass distinct,
+        // stand alone widgets. So we use the spread operator to remove the
+        // brackets and have the content stand alone
+        ...(questions[_questionIndex]['answers'] as List<String>).map((answer) {
+          return Answer(_answerQuestion, answer);
+        }).toList(),
+      ]),
+    ));
   }
 }
 
