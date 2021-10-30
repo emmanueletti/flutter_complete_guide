@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import './question.dart';
 
 // Note:
 // all widgets are classes that extend a base widget in Flutter
@@ -11,7 +12,7 @@ class MyApp extends StatefulWidget {
 
 // state object that will be returned by MyApp
 class _MyAppState extends State<MyApp> {
-  final _questions = [
+  final questions = [
     "Whats your favourite colour?",
     "What's your favourite animal?"
   ];
@@ -31,7 +32,9 @@ class _MyAppState extends State<MyApp> {
     print('answer chosen');
   }
 
-// build method that returns a widget
+// necesary override of the build method inherited from statelesswidget
+// returns a widget, which is a normal Dart object that extends StatefulWdiget
+// StatelessWidget and implements a build method
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -43,7 +46,7 @@ class _MyAppState extends State<MyApp> {
         // which itself takes a named children argument that takes an array
         // of widgets
         body: Column(children: <Widget>[
-          Text(_questions[_questionIndex]),
+          Question(questions[_questionIndex]),
           RaisedButton(
             child: Text('Answer 1'),
             // can add callback function for event listener:
