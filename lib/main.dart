@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import './question.dart';
+import './answer.dart';
 
 // Note:
 // all widgets are classes that extend a base widget in Flutter
@@ -10,14 +11,13 @@ class MyApp extends StatefulWidget {
   State<StatefulWidget> createState() => _MyAppState();
 }
 
-// state object that will be returned by MyApp
 class _MyAppState extends State<MyApp> {
   final questions = [
     "Whats your favourite colour?",
     "What's your favourite animal?"
   ];
 
-  // using var instead of the type "int" as it is better practise to
+  // Using var instead of the type "int" as it is better practise to
   // rely on type inference for simple things like this,
   // type inference is activated because the variable is initilized to a value
   // if not initialized, then we would need to specify the type
@@ -25,14 +25,18 @@ class _MyAppState extends State<MyApp> {
   var _questionIndex = 0;
 
   void _answerQuestion() {
+    // SetState is a function that takes a callback function to set properties
+    // in the _MyAppState object. When properties in the _MyAppState object
+    // change, Flutter does a re-render of the affect widgets.
     setState(() {
       _questionIndex++;
     });
+    // debugging prints
     print(_questionIndex);
     print('answer chosen');
   }
 
-// necesary override of the build method inherited from statelesswidget
+// Necesary override of the build method inherited from statelesswidget
 // returns a widget, which is a normal Dart object that extends StatefulWdiget
 // StatelessWidget and implements a build method
   @override
@@ -47,31 +51,9 @@ class _MyAppState extends State<MyApp> {
         // of widgets
         body: Column(children: <Widget>[
           Question(questions[_questionIndex]),
-          RaisedButton(
-            child: Text('Answer 1'),
-            // can add callback function for event listener:
-            // 1 - as a named function
-            onPressed: _answerQuestion,
-          ),
-          RaisedButton(
-            child: Text('Answer 2'),
-            // 2 - as an anonymous function in arrow syntax
-            // if only one line of expression to execute
-            // anonymous function format only used when you won't need
-            // to re-use the function
-            // onPressed: () => print('answer chosen'),
-            onPressed: _answerQuestion,
-          ),
-          RaisedButton(
-            child: Text('Answer 3'),
-            // 3 - as an anonymous function with more lines of expression
-            // invovled
-            // onPressed: () {
-            //   // ...code
-            //   print('answer chosen');
-            // }
-            onPressed: _answerQuestion,
-          ),
+          Answer(_answerQuestion),
+          Answer(_answerQuestion),
+          Answer(_answerQuestion),
         ]),
       ),
     );
