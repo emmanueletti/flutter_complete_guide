@@ -61,6 +61,13 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+  void _resetQuiz() {
+    setState(() {
+      _questionIndex = 0;
+      _totalScore = 0;
+    });
+  }
+
 // Necesary override of the build method inherited from statelesswidget
 // returns a widget, which is a normal Dart object that extends StatefulWdiget
 // StatelessWidget and implements a build method
@@ -80,7 +87,7 @@ class _MyAppState extends State<MyApp> {
                 _questions[_questionIndex]['answers']
                     as List<Map<String, Object>>,
                 _answerQuestion)
-            : Result(_totalScore),
+            : Result(_totalScore, _resetQuiz),
       ),
     );
   }

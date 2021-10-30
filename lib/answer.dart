@@ -18,13 +18,15 @@ class Answer extends StatelessWidget {
       // setting width as double.infinity makes it take up the entirety of the
       // width space available.
       width: double.infinity,
-      child: RaisedButton(
-        // providing color named argument with the value of a static property
-        // on an un-instantiated Colors class
-        // Colors class is merely a grouping mechanism used to hold all the values
-        // for a collection of pre-defined color binaries
-        color: Colors.blue,
-        textColor: Colors.white,
+      child: ElevatedButton(
+        // Colors class is merely a grouping mechanism designed by the
+        // developers of Flutter to hold all the values
+        // for a collection of pre-defined color binaries. It is an
+        // un-instantiated class
+        style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all(Colors.blue),
+          foregroundColor: MaterialStateProperty.all(Colors.white),
+        ),
         child: Text(answer['text'] as String),
         onPressed: () => handleAnswerPress(answer['score'] as int),
       ),
